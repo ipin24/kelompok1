@@ -1,0 +1,10 @@
+C:/kelompok1/kelompok1/build/windows/CMakeFiles/INSTALL.dir
+C:/kelompok1/kelompok1/build/windows/CMakeFiles/ALL_BUILD.dir
+C:/kelompok1/kelompok1/build/windows/CMakeFiles/ZERO_CHECK.dir
+C:/kelompok1/kelompok1/build/windows/flutter/CMakeFiles/flutter_wrapper_plugin.dir
+C:/kelompok1/kelompok1/build/windows/flutter/CMakeFiles/flutter_wrapper_app.dir
+C:/kelompok1/kelompok1/build/windows/flutter/CMakeFiles/flutter_assemble.dir
+C:/kelompok1/kelompok1/build/windows/flutter/CMakeFiles/INSTALL.dir
+C:/kelompok1/kelompok1/build/windows/runner/CMakeFiles/example.dir
+C:/kelompok1/kelompok1/build/windows/runner/CMakeFiles/INSTALL.dir
+C:/kelompok1/kelompok1/build/windows/runner/CMakeFiles/ALL_BUILD.dir
