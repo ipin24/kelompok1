@@ -9,7 +9,7 @@ class Welcome extends StatelessWidget {
         backgroundColor: Color.fromARGB(255, 40, 150, 114),
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 30, 111, 92),
-          title: Text("My Canteen"),
+          title: Text("Page Login MyCanteen"),
         ),
       ),
     );
