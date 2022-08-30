@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-import 'welcome.dart';
+import './loginView.dart';
 
 class LauncherPage extends StatefulWidget {
   @override
@@ -16,10 +16,10 @@ class _LauncherPageState extends State<LauncherPage> {
   }
 
   startLaunching() async {
-    var duration = const Duration(seconds: 5);
+    var duration = const Duration(milliseconds: 10);
     return new Timer(duration, () {
       Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (_) {
-        return new Welcome();
+        return new LoginPage();
       }));
     });
   }
@@ -55,7 +55,7 @@ class _LauncherPageState extends State<LauncherPage> {
           children: <Widget>[
             new Center(
               child: new Image.asset(
-                "assets/Logo.png",
+                "assets/images/Logo.png",
                 height: 200.0,
                 width: 300.0,
               ),
