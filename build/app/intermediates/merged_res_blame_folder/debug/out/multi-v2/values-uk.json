@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "J:\\latihan flutter\\latihan_1\\project\\backup\\kelompok1\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-uk\\values-uk.xml",
+            "outputFile": "J:\\latihan flutter\\latihan_1\\kelompok1\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-uk\\values-uk.xml",
             "map": [
                 {
                     "source": "C:\\Users\\SKENSA\\.gradle\\caches\\transforms-3\\acbce933e4b464a5224ed377a62db1f5\\transformed\\core-1.6.0\\res\\values-uk\\values-uk.xml",

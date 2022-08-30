@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import './theme.dart';
-import './widgets/custom_checkbox.dart';
-import './widgets/primary_button.dart';
+import '../theme.dart';
+import './loginView.dart';
+import '../widgets/custom_checkbox.dart';
+import '../widgets/primary_button.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 20,
                 ),
                 Image.asset(
-                  'assets/images/accent.png',
+                  'assets/images/gambar.png',
                   width: 99,
                   height: 4,
                 )
@@ -147,10 +148,10 @@ class _RegisterPageState extends State<RegisterPage> {
               height: 32,
             ),
             CustomPrimaryButton(
-              buttonColor: primaryBlue,
-              textValue: 'Register',
-              textColor: Colors.white,
-            ),
+                buttonColor: primaryBlue,
+                textValue: 'Register',
+                textColor: Colors.white,
+                onPressed: () {}),
             SizedBox(
               height: 50,
             ),
@@ -163,7 +164,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()));
                   },
                   child: Text(
                     'Login',

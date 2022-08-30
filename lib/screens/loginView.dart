@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import './regristerView.dart';
-import './theme.dart';
-import './widgets/custom_checkbox.dart';
-import './widgets/primary_button.dart';
+import '../theme.dart';
+import '../widgets/custom_checkbox.dart';
+import '../widgets/primary_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -129,10 +129,10 @@ class _LoginPageState extends State<LoginPage> {
                 height: 32,
               ),
               CustomPrimaryButton(
-                buttonColor: primaryBlue,
-                textValue: 'Login',
-                textColor: Colors.white,
-              ),
+                  buttonColor: primaryBlue,
+                  textValue: 'Login',
+                  textColor: Colors.white,
+                  onPressed: () {}),
             ],
           ),
         ),

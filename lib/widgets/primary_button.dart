@@ -5,26 +5,32 @@ class CustomPrimaryButton extends StatelessWidget {
   final Color buttonColor;
   final String textValue;
   final Color textColor;
+  final Function() onPressed;
 
-  const CustomPrimaryButton(
-      {this.buttonColor = Colors.black,
-      this.textValue = '',
-      this.textColor = Colors.black});
+  CustomPrimaryButton({
+    required this.buttonColor,
+    required this.textValue,
+    required this.textColor,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(5.0),
       elevation: 0,
       child: Container(
         height: 56,
+        width: 350,
         decoration: BoxDecoration(
-            color: buttonColor, borderRadius: BorderRadius.circular(14)),
+          color: buttonColor,
+          borderRadius: BorderRadius.circular(5.0),
+        ),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () {},
-            borderRadius: BorderRadius.circular(14),
+            onTap: onPressed,
+            borderRadius: BorderRadius.circular(5.0),
             child: Center(
               child: Text(
                 textValue,
@@ -35,5 +41,6 @@ class CustomPrimaryButton extends StatelessWidget {
         ),
       ),
     );
+    ;
   }
 }
