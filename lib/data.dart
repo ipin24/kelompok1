@@ -1,0 +1,20 @@
+List<String> items = [
+    "Es teh",
+    "Kopi Hitam",
+    "Aqua Sedang",
+    "Cheers",
+    "Indomie",
+    "Sedap goreng",
+    "Jasuke",
+    "Sate Usus",
+    "Pentol Bakar",
+    "Teh Hangat",
+    "Jus Jambu",
+    "Sego pecel",
+    "Nasi jagung",
+    "Nasi goreng",
+    "Geprek",
+    "Mie Goreng",
+    "bihun",
+    
+];
