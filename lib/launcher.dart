@@ -57,7 +57,7 @@ class _LauncherPageState extends State<LauncherPage> {
               child: new Image.asset(
                 "assets/Logo.png",
                 height: 200.0,
-                width: 300.0,
+                width: 400.0,
               ),
             ),
           ],
