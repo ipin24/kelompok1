@@ -1,22 +1,23 @@
 import 'package:example/screens/loginView.dart';
+import 'package:example/screens/note.dart';
+import 'package:example/screens/notes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:example/cubit/auth_cubit.dart';
-import 'package:example/screens/home.dart';
 import 'package:example/widgets/input_field.dart';
+import 'package:example/models/UsersModel.dart';
 
 import '../theme.dart';
 import '../widgets/custom_checkbox.dart';
 import '../widgets/primary_button.dart';
 
 class RegisterPage extends StatefulWidget {
+  final Users? users;
+  const RegisterPage({Key? key, this.users}) : super(key: key);
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
   bool passwordVisible = false;
-  bool passwordConfirmVisible = false;
   void togglePassword() {
     setState(() {
       passwordVisible = !passwordVisible;
@@ -27,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
+      body: SingleChildScrollView(
           child: Padding(
         padding: EdgeInsets.fromLTRB(24, 40, 24, 0),
         child: Column(
@@ -62,7 +63,22 @@ class _RegisterPageState extends State<RegisterPage> {
                       borderRadius: BorderRadius.circular(14)),
                   child: TextFormField(
                     decoration: InputDecoration(
-                        hintText: 'Email',
+                        hintText: 'NIS',
+                        hintStyle: heading6.copyWith(color: textGrey),
+                        border:
+                            OutlineInputBorder(borderSide: BorderSide.none)),
+                  ),
+                ),
+                SizedBox(
+                  height: 32,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: textWhiteGrey,
+                      borderRadius: BorderRadius.circular(14)),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                        hintText: 'Nama',
                         hintStyle: heading6.copyWith(color: textGrey),
                         border:
                             OutlineInputBorder(borderSide: BorderSide.none)),
@@ -78,41 +94,17 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: TextFormField(
                     obscureText: !passwordVisible,
                     decoration: InputDecoration(
-                        hintText: 'Password',
+                        hintText: 'Password ',
                         hintStyle: heading6.copyWith(color: textGrey),
                         suffixIcon: IconButton(
                           color: textGrey,
                           splashRadius: 1,
                           icon: Icon(passwordVisible
                               ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined),
-                          onPressed: togglePassword,
-                        ),
-                        border:
-                            OutlineInputBorder(borderSide: BorderSide.none)),
-                  ),
-                ),
-                SizedBox(
-                  height: 32,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: textWhiteGrey,
-                      borderRadius: BorderRadius.circular(14)),
-                  child: TextFormField(
-                    obscureText: !passwordConfirmVisible,
-                    decoration: InputDecoration(
-                        hintText: 'Password Confirmation',
-                        hintStyle: heading6.copyWith(color: textGrey),
-                        suffixIcon: IconButton(
-                          color: textGrey,
-                          splashRadius: 1,
-                          icon: Icon(passwordConfirmVisible
-                              ? Icons.visibility_outlined
                               : Icons.voice_over_off_outlined),
                           onPressed: () {
                             setState(() {
-                              passwordConfirmVisible = !passwordConfirmVisible;
+                              passwordVisible = !passwordVisible;
                             });
                           },
                         ),
@@ -154,7 +146,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 buttonColor: primaryBlue,
                 textValue: 'Register',
                 textColor: Colors.white,
-                onPressed: () {}),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => NoteScreen()));
+                }),
             SizedBox(
               height: 50,
             ),
@@ -168,7 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 GestureDetector(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginPage()));
+                        MaterialPageRoute(builder: (context) => NotesScreen()));
                   },
                   child: Text(
                     'Login',

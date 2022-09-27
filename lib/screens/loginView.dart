@@ -1,9 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:example/screens/home.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:example/cubit/auth_cubit.dart';
 import 'package:example/screens/loginView.dart';
 import 'package:example/screens/regristerView.dart';
 import 'package:example/widgets/custom_checkbox.dart';
@@ -28,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(24, 40, 24, 0),
           child: Column(
