@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:example/screens/Dashboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:example/screens/loginView.dart';
@@ -6,6 +8,8 @@ import 'package:example/widgets/custom_checkbox.dart';
 import 'package:example/widgets/input_field.dart';
 import 'package:example/widgets/primary_button.dart';
 import 'package:example/theme.dart';
+import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,6 +18,39 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool passwordVisible = false;
+  TextEditingController NIS = TextEditingController();
+  TextEditingController pass = TextEditingController();
+
+  Future login() async {
+    var url = Uri.http("192.168.1.8", '/taek/regrister2.php', {'q': '{http}'});
+    var response = await http.post(url, body: {
+      "NIS": NIS.text,
+      "Password": pass.text,
+    });
+    var data = json.decode(response.body);
+    if (data.toString() == "Success") {
+      Fluttertoast.showToast(
+        msg: 'Login Successful',
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        toastLength: Toast.LENGTH_SHORT,
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DashBoard(),
+        ),
+      );
+    } else {
+      Fluttertoast.showToast(
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        msg: 'NIS and password invalid',
+        toastLength: Toast.LENGTH_SHORT,
+      );
+    }
+  }
+
   void togglePassword() {
     setState(() {
       passwordVisible = !passwordVisible;
@@ -30,15 +67,22 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              SizedBox(
+                height: 32,
+              ),
               Form(
                   child: Column(
                 children: [
                   Container(
                     height: 150,
                     width: 200,
-                    color: Colors.green,
                     alignment: Alignment.center,
-                    child: const Text('Container'),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/gambar.png"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ],
               )),
@@ -62,8 +106,9 @@ class _LoginPageState extends State<LoginPage> {
                         color: textWhiteGrey,
                         borderRadius: BorderRadius.circular(5)),
                     child: TextFormField(
+                      controller: NIS,
                       decoration: InputDecoration(
-                          hintText: 'Email',
+                          hintText: 'NIS',
                           hintStyle: heading6.copyWith(color: textGrey),
                           border:
                               OutlineInputBorder(borderSide: BorderSide.none)),
@@ -77,6 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                         color: textWhiteGrey,
                         borderRadius: BorderRadius.circular(5)),
                     child: TextFormField(
+                      controller: pass,
                       obscureText: !passwordVisible,
                       decoration: InputDecoration(
                           hintText: 'Password',
@@ -132,7 +178,9 @@ class _LoginPageState extends State<LoginPage> {
                   buttonColor: primaryBlue,
                   textValue: 'Login',
                   textColor: Colors.white,
-                  onPressed: () {}),
+                  onPressed: () {
+                    login();
+                  }),
             ],
           ),
         ),
