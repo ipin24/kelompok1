@@ -10,6 +10,8 @@ import 'package:example/widgets/primary_button.dart';
 import 'package:example/theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -18,36 +20,69 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool passwordVisible = false;
-  TextEditingController NIS = TextEditingController();
+  TextEditingController nis = TextEditingController();
   TextEditingController pass = TextEditingController();
 
   Future login() async {
-    var url = Uri.http("192.168.1.8", '/taek/regrister2.php', {'q': '{http}'});
-    var response = await http.post(url, body: {
-      "NIS": NIS.text,
-      "Password": pass.text,
-    });
-    var data = json.decode(response.body);
-    if (data.toString() == "Success") {
-      Fluttertoast.showToast(
-        msg: 'Login Successful',
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        toastLength: Toast.LENGTH_SHORT,
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DashBoard(),
-        ),
-      );
+    if (nis.text.isEmpty && pass.text.isEmpty) {
+      Alert(
+              context: context,
+              title: "Data Tidak Boleh Kosong",
+              type: AlertType.error)
+          .show();
+    } else if (nis.text.isEmpty) {
+      Alert(
+              context: context,
+              title: "NIS Tidak Boleh Kosong",
+              type: AlertType.error)
+          .show();
+    } else if (pass.text.isEmpty) {
+      Alert(
+              context: context,
+              title: "Password Tidak Boleh Kosong",
+              type: AlertType.error)
+          .show();
     } else {
-      Fluttertoast.showToast(
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        msg: 'NIS and password invalid',
-        toastLength: Toast.LENGTH_SHORT,
+      ProgressDialog pd = ProgressDialog(context: context);
+
+      /// Set options
+      /// Max and msg required
+      pd.show(
+        max: 100,
+        msg: 'Login....',
+        progressBgColor: Colors.transparent,
       );
+      for (int i = 0; i <= 100; i++) {
+        /// You don't need to update state, just pass the value.
+        /// Only value required
+        pd.update(value: i);
+        i++;
+        await Future.delayed(Duration(milliseconds: 50));
+      }
+
+      var url = Uri.http("192.168.1.24", '/taek/login.php', {'q': '{http}'});
+      var response = await http.post(url, body: {
+        "NIS": nis.text,
+        "Password": pass.text,
+      });
+      var data = json.encode(response.body);
+
+      if (data == "Success") {
+        Alert(
+                context: context,
+                title: "Login Berhasil",
+                type: AlertType.success)
+            .show();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DashBoard(),
+          ),
+        );
+      } else {
+        Alert(context: context, title: "Login Gagal", type: AlertType.error)
+            .show();
+      }
     }
   }
 
@@ -106,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                         color: textWhiteGrey,
                         borderRadius: BorderRadius.circular(5)),
                     child: TextFormField(
-                      controller: NIS,
+                      controller: nis,
                       decoration: InputDecoration(
                           hintText: 'NIS',
                           hintStyle: heading6.copyWith(color: textGrey),

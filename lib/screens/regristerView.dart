@@ -1,18 +1,22 @@
 // import 'dart:html';
+import 'dart:async';
 import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' show get;
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:example/screens/Dashboard.dart';
 import 'package:example/screens/loginView.dart';
 import 'package:flutter/material.dart';
 import 'package:example/widgets/input_field.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 
 import '../theme.dart';
 import '../widgets/custom_checkbox.dart';
 import '../widgets/primary_button.dart';
-
-import 'package:http/http.dart' as http;
-import 'package:fluttertoast/fluttertoast.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({
@@ -26,39 +30,81 @@ class _RegisterPageState extends State<RegisterPage> {
   bool passwordVisible = false;
   bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
-  TextEditingController NIS = TextEditingController();
-  TextEditingController Nama = TextEditingController();
-  TextEditingController Password = TextEditingController();
+  TextEditingController nis = TextEditingController();
+  TextEditingController nama = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   Future regrister() async {
-    var url = Uri.http("192.168.1.8", "/taek/regrister.php", {'q': '{http}'});
-    var response = await http.post(url, body: {
-      "NIS": NIS.text,
-      "Nama": Nama.text.toString(),
-      "Password": Password.text.toString()
-    });
-
-    var data = json.decode(response.body);
-    if (data == "Error") {
-      Fluttertoast.showToast(
-        backgroundColor: Colors.orange,
-        textColor: Colors.white,
-        msg: 'User already exit!',
-        toastLength: Toast.LENGTH_SHORT,
-      );
+    // print(data);
+    if (nis.text.isEmpty && nama.text.isEmpty && password.text.isEmpty) {
+      Alert(
+              context: context,
+              title: "Data Tidak Boleh Kosong",
+              type: AlertType.error)
+          .show();
+    } else if (nis.text.isEmpty) {
+      Alert(
+              context: context,
+              title: "NIS Tidak Boleh Kosong",
+              type: AlertType.error)
+          .show();
+    } else if (nama.text.isEmpty) {
+      Alert(
+              context: context,
+              title: "Password Tidak Boleh Kosong",
+              type: AlertType.error)
+          .show();
+    } else if (password.text.isEmpty) {
+      Alert(
+              context: context,
+              title: "Password Tidak Boleh Kosong",
+              type: AlertType.error)
+          .show();
     } else {
-      Fluttertoast.showToast(
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        msg: 'Registration Successful',
-        toastLength: Toast.LENGTH_SHORT,
+      ProgressDialog pd = ProgressDialog(context: context);
+
+      /// Set options
+      /// Max and msg required
+      pd.show(
+        max: 100,
+        msg: 'Daftar....',
+        progressBgColor: Colors.transparent,
       );
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DashBoard(),
-        ),
-      );
+      for (int i = 0; i <= 100; i++) {
+        /// You don't need to update state, just pass the value.
+        /// Only value required
+        pd.update(value: i);
+        i++;
+        await Future.delayed(Duration(milliseconds: 50));
+      }
+      var url =
+          Uri.http("192.168.1.24", "/taek/regrister.php", {'q': '{http}'});
+      var response = await http.post(url, body: {
+        "NIS": nis.text,
+        "Nama": nama.text.toString(),
+        "Password": password.text.toString()
+      });
+      var data = json.encode(response.body);
+      if (data == "Error") {
+        Alert(
+                context: context,
+                title: "NIS Sudah Terdaftar",
+                type: AlertType.error)
+            .show();
+        ;
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DashBoard(),
+          ),
+        );
+        Alert(
+                context: context,
+                title: "Berhasil Membuat Akun",
+                type: AlertType.success)
+            .show();
+      }
     }
   }
 
@@ -112,7 +158,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           color: textWhiteGrey,
                           borderRadius: BorderRadius.circular(14)),
                       child: TextFormField(
-                        controller: NIS,
+                        controller: nis,
                         decoration: InputDecoration(
                             hintText: 'NIS',
                             hintStyle: heading6.copyWith(color: textGrey),
@@ -128,7 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           color: textWhiteGrey,
                           borderRadius: BorderRadius.circular(14)),
                       child: TextFormField(
-                        controller: Nama,
+                        controller: nama,
                         decoration: InputDecoration(
                             hintText: 'Nama',
                             hintStyle: heading6.copyWith(color: textGrey),
@@ -144,7 +190,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           color: textWhiteGrey,
                           borderRadius: BorderRadius.circular(14)),
                       child: TextFormField(
-                        controller: Password,
+                        controller: password,
                         obscureText: !passwordVisible,
                         decoration: InputDecoration(
                             hintText: 'Password ',
