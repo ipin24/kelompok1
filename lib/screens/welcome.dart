@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:example/screens/regristerView.dart';
 import 'package:example/screens/loginView.dart';
 import 'package:example/theme.dart';
-import 'package:example/widgets/custom_checkbox.dart';
 import 'package:example/widgets/primary_button.dart';
 
 class Welcome extends StatelessWidget {

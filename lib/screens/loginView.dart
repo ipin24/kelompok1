@@ -1,17 +1,14 @@
 import 'dart:convert';
 import 'package:example/screens/Dashboard.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:example/screens/loginView.dart';
 import 'package:example/screens/regristerView.dart';
 import 'package:example/widgets/custom_checkbox.dart';
-import 'package:example/widgets/input_field.dart';
 import 'package:example/widgets/primary_button.dart';
 import 'package:example/theme.dart';
 import 'package:http/http.dart' as http;
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
+import 'package:flutter/src/scheduler/ticker.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -28,51 +25,40 @@ class _LoginPageState extends State<LoginPage> {
       Alert(
               context: context,
               title: "Data Tidak Boleh Kosong",
-              type: AlertType.error)
+              type: AlertType.warning)
           .show();
     } else if (nis.text.isEmpty) {
       Alert(
               context: context,
               title: "NIS Tidak Boleh Kosong",
-              type: AlertType.error)
+              type: AlertType.warning)
           .show();
     } else if (pass.text.isEmpty) {
       Alert(
               context: context,
               title: "Password Tidak Boleh Kosong",
-              type: AlertType.error)
+              type: AlertType.warning)
           .show();
     } else {
       ProgressDialog pd = ProgressDialog(context: context);
-
-      /// Set options
-      /// Max and msg required
       pd.show(
         max: 100,
         msg: 'Login....',
         progressBgColor: Colors.transparent,
       );
       for (int i = 0; i <= 100; i++) {
-        /// You don't need to update state, just pass the value.
-        /// Only value required
         pd.update(value: i);
         i++;
         await Future.delayed(Duration(milliseconds: 50));
       }
 
-      var url = Uri.http("192.168.1.24", '/taek/login.php', {'q': '{http}'});
+      var url = Uri.http("192.168.1.13", '/taek/login.php', {'q': '{http}'});
       var response = await http.post(url, body: {
         "NIS": nis.text,
         "Password": pass.text,
       });
-      var data = json.encode(response.body);
-
-      if (data == "Success") {
-        Alert(
-                context: context,
-                title: "Login Berhasil",
-                type: AlertType.success)
-            .show();
+      var data = json.decode(response.body);
+      if (data.toString() == "Success") {
         Navigator.push(
           context,
           MaterialPageRoute(

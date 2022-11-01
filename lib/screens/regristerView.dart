@@ -1,19 +1,11 @@
-// import 'dart:html';
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-// import 'package:http/http.dart' show get;
-import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:example/screens/Dashboard.dart';
 import 'package:example/screens/loginView.dart';
 import 'package:flutter/material.dart';
-import 'package:example/widgets/input_field.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
-
 import '../theme.dart';
 import '../widgets/custom_checkbox.dart';
 import '../widgets/primary_button.dart';
@@ -40,25 +32,25 @@ class _RegisterPageState extends State<RegisterPage> {
       Alert(
               context: context,
               title: "Data Tidak Boleh Kosong",
-              type: AlertType.error)
+              type: AlertType.warning)
           .show();
     } else if (nis.text.isEmpty) {
       Alert(
               context: context,
               title: "NIS Tidak Boleh Kosong",
-              type: AlertType.error)
+              type: AlertType.warning)
           .show();
     } else if (nama.text.isEmpty) {
       Alert(
               context: context,
-              title: "Password Tidak Boleh Kosong",
-              type: AlertType.error)
+              title: "Nama Tidak Boleh Kosong",
+              type: AlertType.warning)
           .show();
     } else if (password.text.isEmpty) {
       Alert(
               context: context,
               title: "Password Tidak Boleh Kosong",
-              type: AlertType.error)
+              type: AlertType.warning)
           .show();
     } else {
       ProgressDialog pd = ProgressDialog(context: context);
@@ -78,18 +70,18 @@ class _RegisterPageState extends State<RegisterPage> {
         await Future.delayed(Duration(milliseconds: 50));
       }
       var url =
-          Uri.http("192.168.1.24", "/taek/regrister.php", {'q': '{http}'});
+          Uri.http("192.168.1.13", "/taek/regrister.php", {'q': '{http}'});
       var response = await http.post(url, body: {
         "NIS": nis.text,
         "Nama": nama.text.toString(),
         "Password": password.text.toString()
       });
-      var data = json.encode(response.body);
-      if (data == "Error") {
+      var data = json.decode(response.body);
+      if (data.toString() == "Error") {
         Alert(
                 context: context,
                 title: "NIS Sudah Terdaftar",
-                type: AlertType.error)
+                type: AlertType.warning)
             .show();
         ;
       } else {
